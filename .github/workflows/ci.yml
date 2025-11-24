@@ -1,0 +1,54 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    env:
+      DEV_UI_URL: ${{ secrets.DEV_UI_URL }}
+      DEV_API_URL: ${{ secrets.DEV_API_URL }}
+      USERNAME: ${{ secrets.USERNAME }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+      CI: "true"
+
+    steps:
+      # Checkout (updated to v4)
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Setup Python
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    # Install dependencies
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Install Playwright browsers
+    - name: Install Playwright Browsers
+      run: python -m playwright install --with-deps
+
+    - name: Run API Tests
+      run: pytest tests/api --env=dev --alluredir=allure-results
+      continue-on-error: true
+
+    - name: Run UI Tests
+      run: pytest tests/ui --env=dev --alluredir=allure-results
+      continue-on-error: true
+
+    # Upload Allure results (UPDATED TO V4)
+    - name: Upload Allure Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path: allure-results

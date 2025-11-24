@@ -1,0 +1,10 @@
+{
+  "first_name": "John",
+  "last_name": "Smith",
+  "address_street": "123 Main St",
+  "address_city": "Dallas",
+  "address_state": "TX",
+  "address_zipcode": "75025",
+  "phone_number": "999-999-9999",
+  "ssn": "123-45-6789"
+}

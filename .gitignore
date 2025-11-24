@@ -2,6 +2,12 @@
 __pycache__/
 *.py[codz]
 *$py.class
+.DS_Store
+.idea
+.env
+screenshots
+allure-results/*
+!allure-results/.gitkeep
 
 # C extensions
 *.so
