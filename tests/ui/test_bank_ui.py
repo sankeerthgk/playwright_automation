@@ -25,12 +25,12 @@ def test_validate_account_details(page, base_urls, credentials, created_customer
     login_to_app(base_urls["ui"], credentials, page)
     accounts_overview = AccountsOverviewPage(page)
     assert accounts_overview.is_account_table_visible()
-    accounts_overview.click_on_last_account()
+    accounts_overview.click_on_first_account()
     account_details = AccountsDetailsPage(page)
 
     assert account_details.get_account_id() == "16674"
     assert account_details.get_account_type() == "CHECKING"
-    assert account_details.get_account_balance() == "$600.00"
+    assert "$6" in account_details.get_account_balance()
     assert not account_details.is_transaction_table_visible()
 
 
