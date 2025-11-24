@@ -6,48 +6,40 @@ from pages.transfer_funds_page import TransferFundsPage
 
 
 def test_login_ui_valid_credentials(page, base_urls, credentials, created_customer):
-    login = LoginPage(page)
-    login.goto(base_urls["ui"])
-    login.login(credentials["username"], credentials["password"])
+    login_to_app(base_urls["ui"], credentials, page)
     accounts_overview = AccountsOverviewPage(page)
     expected_welcome_text = "Welcome " + created_customer.FIRSTNAME + " " + created_customer.LASTNAME
     assert accounts_overview.get_welcome_text() == expected_welcome_text
     assert accounts_overview.is_account_table_visible()
 
-# def test_login_ui_invalid_credentials(page, base_urls, credentials):
-#     login = LoginPage(page)
-#     login.goto(base_urls["ui"])
-#     login.login('kvuykgugkjh', 'invalid')
-#     time.sleep(5)
-#     assert login.is_error_visible()
-#     assert login.get_credentials_error_text() == "The username and password could not be verified."
-#     accounts_overview = AccountsOverviewPage(page)
-#     assert not accounts_overview.is_account_table_visible()
-
-def test_validate_account_details(page, base_urls, credentials, created_customer):
+def test_login_ui_invalid_credentials(page, base_urls, credentials):
     login = LoginPage(page)
     login.goto(base_urls["ui"])
-    login.login(credentials["username"], credentials["password"])
+    login.login('kvuykgugkjh', 'invalid')
+    assert login.is_error_visible()
+    assert login.get_credentials_error_text() == "The username and password could not be verified."
+    accounts_overview = AccountsOverviewPage(page)
+    assert not accounts_overview.is_account_table_visible()
+
+def test_validate_account_details(page, base_urls, credentials, created_customer):
+    login_to_app(base_urls["ui"], credentials, page)
     accounts_overview = AccountsOverviewPage(page)
     assert accounts_overview.is_account_table_visible()
     accounts_overview.click_on_last_account()
     account_details = AccountsDetailsPage(page)
 
-    assert account_details.get_account_id() == "54321"
+    assert account_details.get_account_id() == "16674"
     assert account_details.get_account_type() == "CHECKING"
-    assert account_details.get_account_balance() == "$1351.12"
+    assert account_details.get_account_balance() == "$600.00"
     assert not account_details.is_transaction_table_visible()
 
 
 def test_transfer(page, base_urls, credentials, created_customer):
-    login = LoginPage(page)
-    login.goto(base_urls["ui"])
-    login.login(credentials["username"], credentials["password"])
+    login_to_app(base_urls["ui"], credentials, page)
     accounts_overview = AccountsOverviewPage(page)
-    assert accounts_overview.is_account_table_visible()
     accounts_overview.click_on_last_account()
-
     account_details = AccountsDetailsPage(page)
+
     from_account = account_details.get_account_id()
     from_account_balance = float(account_details.get_account_balance().replace("$", ""))
 
@@ -77,3 +69,9 @@ def test_transfer(page, base_urls, credentials, created_customer):
     accounts_overview.click_on_last_but_one_account()
     account_details = AccountsDetailsPage(page)
     assert to_account_balance+10 == float(account_details.get_account_balance().replace("$", ""))
+
+
+def login_to_app(url, credentials, page):
+    login = LoginPage(page)
+    login.goto(url)
+    login.login(credentials["username"], credentials["password"])

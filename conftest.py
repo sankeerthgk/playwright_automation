@@ -94,8 +94,6 @@ def created_customer(base_urls, credentials):
         "password": credentials["password"]
     }
     response = api.post(endpoint, params=params)
-    print(response.url)
-    print(response.content)
     assert response.ok
     return Customer
 

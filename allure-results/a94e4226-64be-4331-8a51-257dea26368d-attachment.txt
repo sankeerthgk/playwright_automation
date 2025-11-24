@@ -1,0 +1,2 @@
+https://parabank.parasoft.com/parabank/services/bank/customers/update/55590?firstName=John&lastName=Smith&street=123+Main+St&city=Dallas&state=TX&zipCode=75025&phoneNumber=999-999-9999&ssn=123-45-6789&username=testuser111&password=Test%40123
+b'Successfully updated customer profile'
