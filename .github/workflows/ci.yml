@@ -46,18 +46,9 @@ jobs:
       run: pytest tests/ui --env=dev --alluredir=allure-results
       continue-on-error: true
 
-    - name: Install Allure CLI
-      uses: qameta/allure-action@v3
-      with:
-        version: 2.30.1
-
-      # Generate Allure HTML report
-    - name: Generate Allure HTML report
-      run: |
-        allure generate allure-results -o allure-report --clean
-
-    - name: Upload Allure HTML report
+    # Upload Allure results (UPDATED TO V4)
+    - name: Upload Allure Results
       uses: actions/upload-artifact@v4
       with:
-        name: allure-report
-        path: allure-report
+        name: allure-results
+        path: allure-results
