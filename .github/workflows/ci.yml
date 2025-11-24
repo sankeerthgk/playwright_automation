@@ -46,10 +46,10 @@ jobs:
       run: pytest tests/ui --env=dev --alluredir=allure-results
       continue-on-error: true
 
-    - name: Setup Allure CLI
-      uses: frankescobar/setup-allure@v1
+    - name: Install Allure CLI
+      uses: qameta/allure-action@v3
       with:
-        version: 2.26.2
+        version: 2.30.1
 
       # Generate Allure HTML report
     - name: Generate Allure HTML report
