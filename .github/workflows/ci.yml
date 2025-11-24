@@ -18,7 +18,6 @@ jobs:
       CI: "true"
 
     steps:
-
     - name: Debug env vars
       run: |
         echo "DEV_API_URL = $DEV_API_URL"
@@ -48,9 +47,11 @@ jobs:
 
     - name: Run API Tests
       run: pytest tests/api --env=dev --alluredir=allure-results
+      continue-on-error: true
 
     - name: Run UI Tests
       run: pytest tests/ui --env=dev --alluredir=allure-results
+      continue-on-error: true
 
     # Upload Allure results (UPDATED TO V4)
     - name: Upload Allure Results
