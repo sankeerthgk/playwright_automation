@@ -15,9 +15,18 @@ jobs:
       DEV_API_URL: ${{ secrets.DEV_API_URL }}
       USERNAME: ${{ secrets.USERNAME }}
       PASSWORD: ${{ secrets.PASSWORD }}
+      CI: "true"
 
     steps:
-    # Checkout (updated to v4)
+
+    - name: Debug env vars
+      run: |
+        echo "DEV_API_URL = $DEV_API_URL"
+        echo "DEV_UI_URL = $DEV_UI_URL"
+        echo "USERNAME = $USERNAME"
+        echo "PASSWORD = $PASSWORD"
+
+      # Checkout (updated to v4)
     - name: Checkout repository
       uses: actions/checkout@v4
 
@@ -37,13 +46,11 @@ jobs:
     - name: Install Playwright Browsers
       run: python -m playwright install --with-deps
 
-    # Run API tests
     - name: Run API Tests
-      run: pytest tests/api --alluredir=allure-results
+      run: pytest tests/api --env=dev --alluredir=allure-results
 
-    # Run UI tests
     - name: Run UI Tests
-      run: pytest tests/ui --alluredir=allure-results
+      run: pytest tests/ui --env=dev --alluredir=allure-results
 
     # Upload Allure results (UPDATED TO V4)
     - name: Upload Allure Results
