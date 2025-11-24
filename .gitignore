@@ -6,6 +6,7 @@ __pycache__/
 .idea
 .env
 screenshots
+allure-results/*
 
 # C extensions
 *.so
