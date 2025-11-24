@@ -1,6 +1,4 @@
-# Pytest + Playwright + Requests + Allure Example
-
-This is a simple starter QA project with:
+Simple BANK application
 - Pytest for test runner
 - Playwright for UI automation
 - requests for API tests
@@ -12,14 +10,19 @@ project/
 ├── requirements.txt
 ├── pytest.ini
 ├── README.md
+├── api/
+├── data/
+├── pages/
 ├── conftest.py
 ├── tests/
-└── allure-results/ (generated after running tests)
+    ├── ui/
+    ├── api/
+└── allure-results/
 ```
 
 Notes:
-- Update the `api_client.base_url` in `conftest.py` to point to your API.
-- Replace example selectors and URLs in UI tests with real application values.
+- Update .env to point to your base_urls.
 - To install Playwright browsers run: `playwright install`
-- Run tests: `pytest`
+- Run UI tests: `pytest tests/ui --env=dev --alluredir=allure-results`
+- Run API tests: `pytest tests/api --env=dev --alluredir=allure-results`
 - Serve Allure report: `allure serve allure-results`

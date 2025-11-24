@@ -29,6 +29,7 @@ def test_customer_details(base_urls, credentials):
     assert response.json()["id"] == 12878
 
 def test_deposit_funds(base_urls, credentials):
+
     api = APIClient(base_urls["api"])
     endpoint = "/deposit"
     params = {
