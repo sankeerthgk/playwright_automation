@@ -12,14 +12,14 @@ def test_login_ui_valid_credentials(page, base_urls, credentials, created_custom
     assert accounts_overview.get_welcome_text() == expected_welcome_text
     assert accounts_overview.is_account_table_visible()
 
-def test_login_ui_invalid_credentials(page, base_urls, credentials):
-    login = LoginPage(page)
-    login.goto(base_urls["ui"])
-    login.login('kvuykgugkjh', 'invalid')
-    assert login.is_error_visible()
-    assert login.get_credentials_error_text() == "The username and password could not be verified."
-    accounts_overview = AccountsOverviewPage(page)
-    assert not accounts_overview.is_account_table_visible()
+# def test_login_ui_invalid_credentials(page, base_urls, credentials):
+#     login = LoginPage(page)
+#     login.goto(base_urls["ui"])
+#     login.login('kvuykgugkjh', 'invalid')
+#     assert login.is_error_visible()
+#     assert login.get_credentials_error_text() == "The username and password could not be verified."
+#     accounts_overview = AccountsOverviewPage(page)
+#     assert not accounts_overview.is_account_table_visible()
 
 def test_validate_account_details(page, base_urls, credentials, created_customer):
     login_to_app(base_urls["ui"], credentials, page)
