@@ -24,18 +24,18 @@ def test_account_details(base_urls, credentials):
 def test_customer_details(base_urls, credentials):
 
     api = APIClient(base_urls["api"])
-    response = api.get("/customers/12878")
+    response = api.get("/customers/12656")
     assert response.status_code == 200
-    assert response.json()["id"] == 12878
+    assert response.json()["id"] == 12656
 
 def test_deposit_funds(base_urls, credentials):
 
     api = APIClient(base_urls["api"])
     endpoint = "/deposit"
     params = {
-        "accountId": "13677",
+        "accountId": "14121",
         "amount": "100"
     }
     response = api.post(endpoint, params=params)
     assert response.status_code == 200
-    assert response.content == b'Successfully deposited $100 to account #13677'
+    assert response.content == b'Successfully deposited $100 to account #14121'
