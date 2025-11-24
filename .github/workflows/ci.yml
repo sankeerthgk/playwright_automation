@@ -11,30 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Checkout (updated to v4)
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Setup Python 3.10
-      uses: actions/setup-python@v4
+    # Setup Python
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
       with:
         python-version: "3.10"
 
+    # Install dependencies
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        pip install --upgrade pip
         pip install -r requirements.txt
 
+    # Install Playwright browsers
     - name: Install Playwright Browsers
       run: python -m playwright install --with-deps
 
+    # Run API tests
     - name: Run API Tests
       run: pytest tests/api --alluredir=allure-results
 
+    # Run UI tests
     - name: Run UI Tests
       run: pytest tests/ui --alluredir=allure-results
 
+    # Upload Allure results (UPDATED TO V4)
     - name: Upload Allure Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: allure-results
         path: allure-results
