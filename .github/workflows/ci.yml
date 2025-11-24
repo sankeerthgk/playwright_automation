@@ -10,6 +10,12 @@ jobs:
   tests:
     runs-on: ubuntu-latest
 
+    env:
+      BASE_UI_URL: ${{ secrets.BASE_UI_URL }}
+      BASE_API_URL: ${{ secrets.BASE_API_URL }}
+      USERNAME: ${{ secrets.USERNAME }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+
     steps:
     # Checkout (updated to v4)
     - name: Checkout repository

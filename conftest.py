@@ -1,6 +1,5 @@
 import json
 import os
-import time
 
 import pytest
 from dotenv import load_dotenv
@@ -9,10 +8,12 @@ import allure
 
 from api.api_client import APIClient
 from data.customer import Customer
-from pages.login_page import LoginPage
 
-# Load .env
-load_dotenv()
+IS_CI = os.getenv("CI") == "true"
+
+# Load .env only when NOT in CI
+if not IS_CI:
+    load_dotenv()
 
 # ----------------------------
 # Environment selection
@@ -49,7 +50,7 @@ def credentials():
 @pytest.fixture(scope="session")
 def browser():
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=False)
+        browser = pw.chromium.launch(headless=False if not IS_CI else True)
         yield browser
         browser.close()
 
@@ -97,25 +98,6 @@ def created_customer(base_urls, credentials):
     print(response.content)
     assert response.ok
     return Customer
-    # If JSON is a list
-    # if isinstance(data, list):
-    #     data = data[0]
-    # page.goto(base_urls["ui"])
-    # page.get_by_role("link", name="Register").click()
-    # page.locator("[id=\"customer.firstName\"]").fill(data.get("first_name"))
-    # page.locator("[id=\"customer.lastName\"]").fill(data.get("last_name"))
-    # page.locator("[id=\"customer.address.street\"]").fill(data.get("address_street"))
-    # page.locator("[id=\"customer.address.city\"]").fill(data.get("address_city"))
-    # page.locator("[id=\"customer.address.state\"]").fill(data.get("address_state"))
-    # page.locator("[id=\"customer.address.zipCode\"]").fill(data.get("address_zipcode"))
-    # page.locator("[id=\"customer.phoneNumber\"]").fill(data.get("phone_number"))
-    # page.locator("[id=\"customer.ssn\"]").fill(data.get("ssn"))
-    # page.locator("[id=\"customer.username\"]").fill(credentials["username"])
-    # page.locator("[id=\"customer.password\"]").fill(credentials["password"])
-    # page.locator("#repeatedPassword").fill(credentials["password"])
-    # page.get_by_role("button", name="Register").click()
-    # page.get_by_role("link", name="Log Out").click()
-    # time.sleep(5)
 
 
 # ----------------------------
