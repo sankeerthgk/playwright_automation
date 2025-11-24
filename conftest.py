@@ -40,8 +40,8 @@ def base_urls(env):
 @pytest.fixture(scope="session")
 def credentials():
     return {
-        "username": os.getenv("VALID_USERNAME"),
-        "password": os.getenv("VALID_PASSWORD"),
+        "username": os.getenv("USERNAME"),
+        "password": os.getenv("PASSWORD"),
     }
 
 # ----------------------------
